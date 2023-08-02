@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Education {
-    @GeneratedValue(strategy= GenerationType.AUTO);
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private int id;
     private Date startDate;
