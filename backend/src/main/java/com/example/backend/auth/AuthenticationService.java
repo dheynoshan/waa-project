@@ -18,6 +18,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
@@ -42,15 +43,24 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         var user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow();
-        if(!user.getIsDeleted()) {
-            var jwtToken = jwtService.generateToken(user);
-            return AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .build();
-        }
-        else
-            return new AuthenticationResponse();
+
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+
+//        var user = userRepo.findByEmail(request.getEmail())
+//                .orElseThrow();
+//        if(!user.getIsDeleted()) {
+//            var jwtToken = jwtService.generateToken(user);
+//            return AuthenticationResponse.builder()
+//                    .token(jwtToken)
+//                    .build();
+//        }
+//        else
+//            return new AuthenticationResponse();
     }
 }
