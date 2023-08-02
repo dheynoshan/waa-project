@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users/{userId}/achievements")
+@RequestMapping("/api/v1/users/{userId}/achievements")
 public class AchievementController {
     private final AchievementService achievementService;
     @GetMapping

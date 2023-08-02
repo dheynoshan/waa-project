@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users/{userId}/jobexps")
+@RequestMapping("/api/v1/users/{userId}/jobexps")
 public class JobExpController {
     private final JobExpService jobExpService;
     @GetMapping

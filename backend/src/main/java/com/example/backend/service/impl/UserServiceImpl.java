@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepo.findAll();
         List<UserDto> userDtoList = new ArrayList<>();
         userList.forEach(user -> {
-            if(!user.getIsDeleted()) {
+            if (!user.getIsDeleted()) {
                 UserDto userDto = modelMapper.map(user, UserDto.class);
                 userDtoList.add(userDto);
             }
@@ -65,8 +65,7 @@ public class UserServiceImpl implements UserService {
         if (userDto.getEmail() != null)
             user.setEmail(userDto.getEmail());
         if (userDto.getPassword() != null)
-            System.out.println(userDto.getPassword());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepo.save(user);
         return modelMapper.map(user, UserDto.class);
     }

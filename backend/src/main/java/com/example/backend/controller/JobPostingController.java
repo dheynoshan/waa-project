@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/jobs")
+@RequestMapping(value = "/api/v1/jobs")
 public class JobPostingController {
     @Autowired
     private JobPostingServiceImplementation jobPostingService;

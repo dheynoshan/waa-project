@@ -1,9 +1,7 @@
 package com.example.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +20,9 @@ public class Event {
     private Date eventDate;
 
     private Boolean deleted = false;
+
+    @JoinColumn
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 }

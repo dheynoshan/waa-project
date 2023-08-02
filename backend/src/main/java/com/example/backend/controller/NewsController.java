@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/news")
+@RequestMapping(value = "/api/v1/news")
 public class NewsController {
     @Autowired
     private NewsService newsService;
