@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Achievement {
-    @GeneratedValue(strategy= GenerationType.AUTO);
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Id
     private int id;
     private int year;

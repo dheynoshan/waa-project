@@ -10,14 +10,16 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Getter
 @Setter
-public class JobExp {
-    @GeneratedValue(strategy= GenerationType.AUTO)
+@Getter
+public class Event {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date startDate;
-    private Date endDate;
-    private String companyName;
-    private String jobTitle;
+    private String name;
+    private String type;
+    private String location;
+    private Date eventDate;
+
+    private Boolean deleted = false;
 }

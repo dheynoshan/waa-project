@@ -10,14 +10,13 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Getter
 @Setter
-public class JobExp {
-    @GeneratedValue(strategy= GenerationType.AUTO)
+@Getter
+public class News {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date startDate;
-    private Date endDate;
-    private String companyName;
-    private String jobTitle;
+    private Date postedDate;
+    private String details;
+    private Boolean deleted = false;
 }
