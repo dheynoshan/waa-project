@@ -24,6 +24,7 @@ public class AchievementServiceImpl implements AchievementService {
             AchievementDto dto = modelMapper.map(achievement, AchievementDto.class);
             results.add(dto);
         });
+
         return results;
     }
 
