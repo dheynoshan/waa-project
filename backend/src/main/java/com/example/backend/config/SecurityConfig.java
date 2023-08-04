@@ -34,7 +34,7 @@ public class SecurityConfig {
 //                .permitAll()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
-//                .requestMatchers(HttpMethod.POST,"/api/v1/auth/**","/api/v1/users/**", "/api/v1/addresses/**", "/api/v1/jobs/**", "/api/v1/news/**", "/api/v1/events/**")
+//                .requestMatchers(HttpMethod.GET, "/api/v1/addresses/**").hasAnyAuthority("ADMIN")
 //                .permitAll()
 //                .requestMatchers(HttpMethod.PUT,"/api/v1/auth/**", "/api/v1/users/**", "/api/v1/addresses/**")
 //                .permitAll()

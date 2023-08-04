@@ -44,23 +44,23 @@ public class AuthenticationService {
                 )
         );
 
-        var user = userRepo.findByEmail(request.getEmail())
-                .orElseThrow();
-
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-
 //        var user = userRepo.findByEmail(request.getEmail())
 //                .orElseThrow();
-//        if(!user.getIsDeleted()) {
-//            var jwtToken = jwtService.generateToken(user);
-//            return AuthenticationResponse.builder()
-//                    .token(jwtToken)
-//                    .build();
-//        }
-//        else
-//            return new AuthenticationResponse();
+//
+//        var jwtToken = jwtService.generateToken(user);
+//        return AuthenticationResponse.builder()
+//                .token(jwtToken)
+//                .build();
+
+        var user = userRepo.findByEmail(request.getEmail())
+                .orElseThrow();
+        if(!user.getIsDeleted()) {
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
+        }
+        else
+            return new AuthenticationResponse();
     }
 }
