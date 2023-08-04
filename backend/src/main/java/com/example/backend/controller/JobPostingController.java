@@ -17,14 +17,17 @@ public class JobPostingController {
     private JobPostingServiceImplementation jobPostingService;
 
     @GetMapping
-    public List<JobPosting> getAllJobs(@RequestParam("orgName") Optional<String> orgName, @RequestParam("city") Optional<String> city, @RequestParam("state") Optional<String> state) {
-        return !orgName.isPresent() && !city.isPresent() && !state.isPresent() ?
-                jobPostingService.getAllJobs() :
-                jobPostingService.getJobFilter(
+    public List<JobPosting> getAllJobs(){
+        return jobPostingService.getAllJobs();
+    }
+
+    @GetMapping("/filters")
+    public List<JobPosting> getJobsByFilter(@RequestParam("orgName") Optional<String> orgName, @RequestParam("city") Optional<String> city, @RequestParam("state") Optional<String> state){
+        return jobPostingService.getJobFilter(
                         orgName.orElse(""),
-                        city.orElse(""),
-                        state.orElse("")
-                );
+                city.orElse(""),
+                state.orElse("")
+        );
     }
 
     @GetMapping("/{id}")
