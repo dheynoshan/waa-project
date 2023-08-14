@@ -1,0 +1,21 @@
+.App {
+  text-align: center;
+}
+
+.home,
+.services,
+.reports,
+.contact,
+.events,
+.support {
+  display: flex;
+  margin-left: 260px;
+}
+
+.form {
+  margin: auto;
+  width: 50%;
+}
+
+
+
