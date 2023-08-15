@@ -5,34 +5,40 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { format } from 'date-fns';
 
-const JobsComponent = () => {
+const JobsComponent = ({ jobs }) => {
     return (
-        <Grid xs={4}>
-            {/* <Item>xs=4</Item> */}
-            <Box >
-                <Card variant='elevation'>
-                    <CardContent >
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                            Job Title
-                        </Typography>
-                        <Typography variant="h5" component="div">
-                            Organization Name
-                        </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            datePosted
-                        </Typography>
-                        <Typography variant="body2">
-                            status
-                            <br />
-                            {'"city name"'}
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
-            </Box>
+        <Grid container spacing={2}>
+            {
+                jobs.map(job =>
+                    <Grid xs={4} key={job.id}>
+                        <Box >
+                            <Card variant='elevation'>
+                                <CardContent >
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        {job.title}
+                                    </Typography>
+                                    <Typography variant="h5" component="div">
+                                        {job.orgName}
+                                    </Typography>
+                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                        {format(new Date(job.datePosted), 'yyyy-MM-dd')}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {job.status ? "open" : "close"}
+                                        <br />
+                                        {`'${job.city}'`}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small">Details</Button>
+                                </CardActions>
+                            </Card>
+                        </Box>
+                    </Grid>
+                )
+            }
         </Grid>
     )
 }

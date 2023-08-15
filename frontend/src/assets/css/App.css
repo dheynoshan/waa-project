@@ -17,5 +17,8 @@
   width: 50%;
 }
 
-
-
+.pagination-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px
+}

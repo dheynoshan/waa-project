@@ -47,7 +47,6 @@ const Sidebar = () => {
     return (
         <>
             <IconContext.Provider value={{ color: "#fff" }}>
-                <Nav></Nav>
                 <SidebarNav sidebar={sidebar}>
                     <SidebarWrap>
                         <NavIcon to="#">
