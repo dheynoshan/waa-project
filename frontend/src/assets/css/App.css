@@ -3,13 +3,13 @@
 }
 
 .home,
-.services,
+.jobs,
 .reports,
 .contact,
 .events,
 .support {
   display: flex;
-  margin-left: 260px;
+  margin: 20px 20px 20px 260px;
 }
 
 .form {
