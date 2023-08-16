@@ -10,6 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users/{userId}/achievements")
+@CrossOrigin
 public class AchievementController {
     private final AchievementService achievementService;
     @GetMapping

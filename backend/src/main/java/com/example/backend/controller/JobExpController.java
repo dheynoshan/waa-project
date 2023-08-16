@@ -10,6 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users/{userId}/jobexps")
+@CrossOrigin
 public class JobExpController {
     private final JobExpService jobExpService;
     @GetMapping

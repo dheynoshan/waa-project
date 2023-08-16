@@ -2,6 +2,7 @@ package com.example.backend.auth;
 
 import com.example.backend.config.JwtService;
 import com.example.backend.entity.User;
+import com.example.backend.enums.Role;
 import com.example.backend.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +26,8 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .isDeleted(request.getIsDeleted())
+                .role(Role.USER)
+                .isDeleted(false)
                 .build();
         userRepo.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -44,23 +45,16 @@ public class AuthenticationService {
                 )
         );
 
-//        var user = userRepo.findByEmail(request.getEmail())
-//                .orElseThrow();
-//
-//        var jwtToken = jwtService.generateToken(user);
-//        return AuthenticationResponse.builder()
-//                .token(jwtToken)
-//                .build();
-
         var user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow();
-        if(!user.getIsDeleted()) {
+        if (!user.getIsDeleted()) {
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .userId(user.getId())
                     .build();
-        }
-        else
+        } else
             return new AuthenticationResponse();
     }
 }
+

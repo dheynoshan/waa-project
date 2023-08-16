@@ -6,8 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router';
 
 const JobsComponent = ({ jobs }) => {
+    const navigate = useNavigate();
+
+    const handleClick = (id) => {
+        navigate(`/jobs/${id}`);
+    }
+
     return (
         <Grid container spacing={2}>
             {
@@ -26,13 +33,12 @@ const JobsComponent = ({ jobs }) => {
                                         {format(new Date(job.datePosted), 'yyyy-MM-dd')}
                                     </Typography>
                                     <Typography variant="body2">
-                                        {job.status ? "open" : "close"}
-                                        <br />
-                                        {`'${job.city}'`}
+                                        Status: {job.status ? "open" : "closed"} 
+                                        {` in ${job.city}`}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">Details</Button>
+                                    <Button size="small" onClick={()=>handleClick(job.id)}>Details</Button>
                                 </CardActions>
                             </Card>
                         </Box>

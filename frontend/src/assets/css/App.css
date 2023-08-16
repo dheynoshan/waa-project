@@ -4,8 +4,8 @@
 
 .home,
 .jobs,
-.reports,
-.contact,
+.details,
+.job-edit,
 .events,
 .support {
   display: flex;
@@ -21,4 +21,12 @@
   position: fixed;
   bottom: 20px;
   right: 20px
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 5px;
+}
+
+.css-yceqcy-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
 }

@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+
 import com.example.backend.dto.AddressDto;
 import com.example.backend.dto.UserDto;
 import com.example.backend.entity.Address;
@@ -10,14 +11,17 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
     private final AddressRepo addressRepo;
     private final ModelMapper modelMapper;
+
 
     public List<AddressDto> getAll() {
         List<Address> addressList = addressRepo.findAll();
@@ -31,16 +35,19 @@ public class AddressServiceImpl implements AddressService {
         return addressDtoList;
     }
 
+
     public AddressDto getAddressById(Integer id) {
         Address address = addressRepo.findById(id).get();
         return modelMapper.map(address, AddressDto.class);
     }
+
 
     public String save(AddressDto addressDto) {
         Address address = modelMapper.map(addressDto, Address.class);
         addressRepo.save(address);
         return "Address saved successfully";
     }
+
 
     public String delete(Integer id) {
         Address address = addressRepo.findById(id).get();
@@ -49,8 +56,10 @@ public class AddressServiceImpl implements AddressService {
         else
             addressRepo.deleteById(id);
 
+
         return "Address deletion successful";
     }
+
 
     @Override
     public AddressDto update(Integer id, AddressDto addressDto) {
@@ -70,4 +79,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
 
+    @Override
+    public AddressDto getByUserId(Integer userId) {
+        Address address = addressRepo.getByUserId(userId);
+        return modelMapper.map(address, AddressDto.class);
+    }
+
+
 }
+
+
+
