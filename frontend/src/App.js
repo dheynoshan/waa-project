@@ -11,11 +11,12 @@ import { createContext, useState } from "react";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import UserList from "./pages/UserList";
-import UserDetails from "./pages/UserDetails";
+import UserDetails from "./components/Users/UserDetails";
 import JobCreate from "./components/Jobs/JobCreate";
 import JobEdit from "./components/Jobs/JobEdit";
 import Jobs from "./pages/Jobs";
 import JobDetails from "./components/Jobs/JobDetails";
+import UserEdit from "./components/Users/UserEdit";
 
 export const AuthContext = createContext();
 
@@ -40,11 +41,15 @@ function App() {
                     <Routes>
                       <Route path="/my-profile" element={<Profile />} />
                       <Route path="/users" element={<UserList />} />
-                      <Route path="/userDetails" element={<UserDetails />} />
-                      <Route path='/jobs' element={<Jobs />} />
-                      <Route path='/jobs/:id' element={<JobDetails />} />
-                      <Route path='/jobs/create' element={<JobCreate />} />
-                      <Route path='/jobs/edit/:id' element={<JobEdit />} />
+                      <Route path="/users/:id" element={<UserDetails />} />
+                      <Route
+                        path="/jobs/users/edit/:id"
+                        element={<UserEdit />}
+                      />
+                      <Route path="/jobs" element={<Jobs />} />
+                      <Route path="/jobs/:id" element={<JobDetails />} />
+                      <Route path="/jobs/create" element={<JobCreate />} />
+                      <Route path="/jobs/edit/:id" element={<JobEdit />} />
                     </Routes>
                   </div>
                 )
@@ -58,5 +63,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -27,24 +27,32 @@ export default function LogIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const rgExp = /^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2-6}$/;
-    // if (!rgExp.test(data.email)) {
-    //   alert("Invalid email");
-    // } else {
-    axios
-      .post("http://localhost:8080/api/v1/auth/authenticate", {
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-      .then((res) => {
-        user.setAuth({
-          id: res.data.userId,
-          token: res.data.token,
-        });
-        navigate("/my-profile");
-      })
-      .catch((error) => console.log(error));
-    // }
+    const rgExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!rgExp.test(data.get("email"))) {
+      alert("Invalid email");
+    } else {
+      console.log("Login", event);
+      axios
+        .post("http://localhost:8080/api/v1/auth/authenticate", {
+          email: data.get("email"),
+          password: data.get("password"),
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.token === null) {
+            alert("Invalid User");
+            navigate("/login");
+          } else {
+            user.setAuth({
+              id: res.data.userId,
+              token: res.data.token,
+              role: res.data.role,
+            });
+            navigate(`/my-profile`);
+          }
+        })
+        .catch((error) => console.log("error", error));
+    }
   };
 
   return (
@@ -114,37 +122,3 @@ export default function LogIn() {
     </ThemeProvider>
   );
 }
-
-// import Typography from "@mui/material/Typography";
-// import Button from "@mui/material/Button";
-// import * as React from "react";
-// import TextField from "@mui/material/TextField";
-
-// export const LogIn = () => {
-//   return (
-//     <div className="form">
-//       <Typography variant="h5">Log In</Typography>
-//       <form>
-//         <TextField
-//           style={{ width: "80%", margin: "5px" }}
-//           type="text"
-//           label="Email"
-//           variant="outlined"
-//         />
-//         <br />
-//         <TextField
-//           style={{ width: "80%", margin: "5px" }}
-//           type="text"
-//           label="Passoword"
-//           variant="outlined"
-//         />
-//         <br />
-//         <Button variant="contained" color="primary">
-//           Log In
-//         </Button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default LogIn;

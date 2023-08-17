@@ -12,4 +12,7 @@ public class UserDto {
     private String email;
     private String password;
     private Boolean isDeleted;
+    private String phoneNumber;
+    private String course;
+    private String industry;
 }

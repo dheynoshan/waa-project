@@ -5,15 +5,18 @@ import { useNavigate, useParams } from "react-router";
 import { useContext, useEffect, useState } from "react";
 
 import axios from "axios";
-import Button from "@mui/material/Button";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../App";
 
-export const Profile = () => {
+import Button from "@mui/material/Button";
+
+const UserEdit = () => {
+  const params = useParams();
+
   const user = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const userId = user.auth.id;
+  const userId = params.id;
 
   const bearer_token = `Bearer ${user.auth.token}`;
 
@@ -52,42 +55,40 @@ export const Profile = () => {
       .put(`http://localhost:8080/api/v1/users/${userId}`, user, config)
       .then((res) => {
         alert("User succesfully updated");
-        navigate("/my-profile");
-      })
-      .then(() => {
-        const addr = {
-          number,
-          street,
-          city,
-          state,
-          zip,
-        };
-        try {
-          console.log("Test");
-          axios
-            .put(
-              `http://localhost:8080/api/v1/addresses/${address.id}`,
-              addr,
-              config
-            )
-            .then((res) => {
-              alert("Address Updated");
-              navigate("/my-profile");
-            })
-            .catch((err) => {
-              console.log(err);
-              navigate("/my-profile");
-            });
-        } catch (err) {
-          console.log(err);
-        }
+        navigate("/users");
       });
-    getUserById();
-    navigate("/my-profile");
+  };
+
+  const handleAddressUpdate = () => {
+    const addr = {
+      number,
+      street,
+      city,
+      state,
+      zip,
+      user: {
+        id: user.auth.id,
+        role: "User",
+      },
+    };
+    try {
+      console.log("Test");
+      axios
+        .put(
+          `http://localhost:8080/api/v1/addresses/${address.id}`,
+          addr,
+          config
+        )
+        .then((res) => {
+          alert("Address Updated");
+          navigate("/users");
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   async function getUserById() {
-    console.log(userId);
     const bearer_token = `Bearer ${user.auth.token}`;
 
     try {
@@ -109,6 +110,9 @@ export const Profile = () => {
         setLastName(res.data.lastName);
         setEmail(res.data.email);
         setPassword(res.data.password);
+        setIndustry(res.data.industry);
+        setPhoneNumber(res.data.phoneNumber);
+        setCourse(res.data.course);
       }
     } catch (err) {
       console.error(err.message);
@@ -154,7 +158,7 @@ export const Profile = () => {
       className="details"
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <Typography variant="h5">User Details</Typography>
+      <Typography variant="h5">Edit User Details</Typography>
 
       <Card sx={{ padding: "25px", margin: "auto", width: "80%" }}>
         <CardContent>
@@ -291,7 +295,6 @@ export const Profile = () => {
                   }}
                 />
               </Grid>
-
               <Grid item xs={3}>
                 <Typography variant="subtitle" sx={{ width: "100%" }}>
                   Course
@@ -313,7 +316,27 @@ export const Profile = () => {
                   }}
                 />
               </Grid>
+              {/**/}
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", justifyContent: "end" }}
+              >
+                <Button color="secondary" onClick={handleUpdate}>
+                  Update
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </CardContent>
+      </Card>
 
+      <Typography variant="h5">Edit Address Details</Typography>
+
+      <Card sx={{ padding: "25px", margin: "auto", width: "80%" }}>
+        <CardContent>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
               <Grid item xs={3}>
                 <Typography variant="subtitle" sx={{ width: "100%" }}>
                   Number
@@ -423,13 +446,13 @@ export const Profile = () => {
                   }}
                 />
               </Grid>
-              {/**/}
+
               <Grid
                 item
                 xs={12}
                 sx={{ display: "flex", justifyContent: "end" }}
               >
-                <Button color="secondary" onClick={handleUpdate}>
+                <Button color="secondary" onClick={handleAddressUpdate}>
                   Update
                 </Button>
               </Grid>
@@ -440,3 +463,5 @@ export const Profile = () => {
     </div>
   );
 };
+
+export default UserEdit;
