@@ -54,6 +54,10 @@ public class NewsServiceImplementation implements NewsService {
                 news.setPostedDate(updatedNews.getPostedDate());
             }
 
+            if (Objects.nonNull(updatedNews.getTitle()) && !"".equalsIgnoreCase(updatedNews.getTitle())) {
+                news.setDetails(updatedNews.getTitle());
+            }
+
             if (Objects.nonNull(updatedNews.getDetails()) && !"".equalsIgnoreCase(updatedNews.getDetails())) {
                 news.setDetails(updatedNews.getDetails());
             }

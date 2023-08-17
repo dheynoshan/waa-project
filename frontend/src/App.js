@@ -17,6 +17,14 @@ import JobEdit from "./components/Jobs/JobEdit";
 import Jobs from "./pages/Jobs";
 import JobDetails from "./components/Jobs/JobDetails";
 import UserEdit from "./components/Users/UserEdit";
+import Events from "./pages/Events";
+import EventCreate from "./components/Events/EventCreate";
+import EventDetails from "./components/Events/EventDetails";
+import EventEdit from "./components/Events/EventEdit";
+import News from "./pages/News";
+import NewsDetails from "./components/News/NewsDetails";
+import NewsCreate from "./components/News/NewsCreate";
+import NewsEdit from "./components/News/NewsEdit";
 
 export const AuthContext = createContext();
 
@@ -50,6 +58,18 @@ function App() {
                       <Route path="/jobs/:id" element={<JobDetails />} />
                       <Route path="/jobs/create" element={<JobCreate />} />
                       <Route path="/jobs/edit/:id" element={<JobEdit />} />
+                      <Route path="/jobs" element={<Jobs />} />
+                      <Route path="/jobs/:id" element={<JobDetails />} />
+                      <Route path="/jobs/create" element={<JobCreate />} />
+                      <Route path="/jobs/edit/:id" element={<JobEdit />} />
+                      <Route path="/events" element={<Events />} />
+                      <Route path="/events/:id" element={<EventDetails />} />
+                      <Route path="/events/create" element={<EventCreate />} />
+                      <Route path="/events/edit/:id" element={<EventEdit />} />
+                      <Route path="/news" element={<News />} />
+                      <Route path="/news/:id" element={<NewsDetails />} />
+                      <Route path="/news/create" element={<NewsCreate />} />
+                      <Route path="/news/edit/:id" element={<NewsEdit />} />
                     </Routes>
                   </div>
                 )

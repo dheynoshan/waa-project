@@ -18,6 +18,7 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date postedDate;
+    private String title;
     private String details;
     private Boolean deleted = false;
     @JoinColumn
