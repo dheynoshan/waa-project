@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import JobExp from "./jobexp";
+import { AuthContext } from "../../App";
+
+import Button from "@mui/material/Button";
 
 export default function JobExpList(props) {
+    const user = useContext(AuthContext)
+    const bearer_token = `Bearer ${user.auth.token}`;
+    const config = {
+        headers: {
+            Authorization: bearer_token,
+        },
+    };
     let [state, setState] = useState([]);
-
-
-    // pass user id from parent
     const getData = async () => {
-        const result = await axios.get(`http://localhost:8080/api/v1/users/${props.userID}/jobexps`);
+        const result = await axios.get(`http://localhost:8080/api/v1/users/${props.userID}/jobexps`, config);
         setState(result.data);
     }
 
@@ -26,14 +33,15 @@ export default function JobExpList(props) {
 
     return (
         <div>
-            <button type="button" onClick={addForm}>Add Job Experience</button>
+            <Button variant="outlined" onClick={addForm} sx={{ marginBottom: '15px' }}> Add Job </Button>
             <div>
                 {state.map(item => {
                     return (
-                        <JobExp key={item.id} startDate={item.startDate} endDate={item.endDate} companyName={item.companyName} jobTitle={jobTitle} userID={userID} deleteForm={deleteForm} getData={getData} />
+                        <JobExp key={item.id} id={item.id} startDate={item.startDate} endDate={item.endDate} companyName={item.companyName} jobTitle={item.jobTitle} userID={props.userID} deleteForm={deleteForm} getData={getData} />
                     )
                 })}
             </div>
+            <hr />
         </div>
     )
 }
