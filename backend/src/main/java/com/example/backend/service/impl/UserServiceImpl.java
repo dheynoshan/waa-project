@@ -66,6 +66,12 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userDto.getEmail());
         if (userDto.getPassword() != null)
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        if (userDto.getPhoneNumber() != null)
+            user.setPhoneNumber(userDto.getPhoneNumber());
+        if (userDto.getIndustry() != null)
+            user.setIndustry(userDto.getIndustry());
+        if (userDto.getCourse() != null)
+            user.setCourse(userDto.getCourse());
         userRepo.save(user);
         return modelMapper.map(user, UserDto.class);
     }

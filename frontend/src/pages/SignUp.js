@@ -24,28 +24,25 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // const rgExp = /^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,6}$/;
-    // if (!rgExp.test(data.email)) {
-    //   alert("Invalid email");
-    // }
-    // const rgExp = /^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,6}$/;
-    // if (!rgExp.test(data.get(data.email))) {
-    //   // Corrected to use data.get("email")
-    //   alert("Invalid email");
-    // } else {
-    axios
-      .post("http://localhost:8080/api/v1/auth/register", {
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-      .then((res) => {
-        alert("User Registration Successful");
-        navigate("/login");
-      })
-      .catch((err) => alert("User already exist"));
-    // }
+
+    const rgExp = /^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,6}$/;
+    if (!rgExp.test(data.get("email"))) {
+      // Corrected to use data.get("email")
+      alert("Invalid email");
+    } else {
+      axios
+        .post("http://localhost:8080/api/v1/auth/register", {
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName"),
+          email: data.get("email"),
+          password: data.get("password"),
+        })
+        .then((res) => {
+          alert("User Registration Successful");
+          navigate("/login");
+        })
+        .catch((err) => alert("User already exist"));
+    }
   };
 
   return (

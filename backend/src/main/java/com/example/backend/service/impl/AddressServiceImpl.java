@@ -51,13 +51,15 @@ public class AddressServiceImpl implements AddressService {
 
     public String delete(Integer id) {
         Address address = addressRepo.findById(id).get();
-        if (!address.getIsDeleted())
-            address.setIsDeleted(true);
-        else
-            addressRepo.deleteById(id);
-
-
-        return "Address deletion successful";
+        if (address != null) {
+            if (!address.getIsDeleted())
+                address.setIsDeleted(true);
+            else
+                addressRepo.deleteById(id);
+            return "Address deletion successful";
+        } else {
+            return "Address doesn't exit";
+        }
     }
 
 
@@ -82,7 +84,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDto getByUserId(Integer userId) {
         Address address = addressRepo.getByUserId(userId);
-        return modelMapper.map(address, AddressDto.class);
+        if (address != null) {
+            return modelMapper.map(address, AddressDto.class);
+        } else {
+            return new AddressDto();
+        }
     }
 
 

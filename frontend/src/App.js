@@ -11,11 +11,20 @@ import { createContext, useState } from "react";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import UserList from "./pages/UserList";
-import UserDetails from "./pages/UserDetails";
+import UserDetails from "./components/Users/UserDetails";
 import JobCreate from "./components/Jobs/JobCreate";
 import JobEdit from "./components/Jobs/JobEdit";
 import Jobs from "./pages/Jobs";
 import JobDetails from "./components/Jobs/JobDetails";
+import UserEdit from "./components/Users/UserEdit";
+import Events from "./pages/Events";
+import EventCreate from "./components/Events/EventCreate";
+import EventDetails from "./components/Events/EventDetails";
+import EventEdit from "./components/Events/EventEdit";
+import News from "./pages/News";
+import NewsDetails from "./components/News/NewsDetails";
+import NewsCreate from "./components/News/NewsCreate";
+import NewsEdit from "./components/News/NewsEdit";
 
 export const AuthContext = createContext();
 
@@ -40,11 +49,27 @@ function App() {
                     <Routes>
                       <Route path="/my-profile" element={<Profile />} />
                       <Route path="/users" element={<UserList />} />
-                      <Route path="/userDetails" element={<UserDetails />} />
-                      <Route path='/jobs' element={<Jobs />} />
-                      <Route path='/jobs/:id' element={<JobDetails />} />
-                      <Route path='/jobs/create' element={<JobCreate />} />
-                      <Route path='/jobs/edit/:id' element={<JobEdit />} />
+                      <Route path="/users/:id" element={<UserDetails />} />
+                      <Route
+                        path="/jobs/users/edit/:id"
+                        element={<UserEdit />}
+                      />
+                      <Route path="/jobs" element={<Jobs />} />
+                      <Route path="/jobs/:id" element={<JobDetails />} />
+                      <Route path="/jobs/create" element={<JobCreate />} />
+                      <Route path="/jobs/edit/:id" element={<JobEdit />} />
+                      <Route path="/jobs" element={<Jobs />} />
+                      <Route path="/jobs/:id" element={<JobDetails />} />
+                      <Route path="/jobs/create" element={<JobCreate />} />
+                      <Route path="/jobs/edit/:id" element={<JobEdit />} />
+                      <Route path="/events" element={<Events />} />
+                      <Route path="/events/:id" element={<EventDetails />} />
+                      <Route path="/events/create" element={<EventCreate />} />
+                      <Route path="/events/edit/:id" element={<EventEdit />} />
+                      <Route path="/news" element={<News />} />
+                      <Route path="/news/:id" element={<NewsDetails />} />
+                      <Route path="/news/create" element={<NewsCreate />} />
+                      <Route path="/news/edit/:id" element={<NewsEdit />} />
                     </Routes>
                   </div>
                 )
@@ -58,5 +83,3 @@ function App() {
 }
 
 export default App;
-
-

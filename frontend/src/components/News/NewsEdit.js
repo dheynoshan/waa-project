@@ -11,11 +11,14 @@ import axios from "axios";
 import { AuthContext } from "../../App";
 import Button from '@mui/material/Button';
 
-const JobCreate = () => {
+
+const NewsEdit = () => {
     const params = useParams();
+
+    const [mynew, setMynew] = useState({});
     const user = useContext(AuthContext);
     const navigate = useNavigate();
-    const job_id = params.id;
+    const news_id = params.id;
     const bearer_token = `Bearer ${user.auth.token}`;
     const config = {
         headers: {
@@ -23,41 +26,49 @@ const JobCreate = () => {
         }
     };
 
-    const [datePosted, setDatePosted] = useState(dayjs());
+    const [postedDate, setPostedDate] = useState(dayjs());
     const [title, setTitle] = useState('');
-    const [orgName, setOrgName] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
     const [details, setDetails] = useState('');
 
     const handleChange = (newDate) => {
-        setDatePosted(newDate);
+        setPostedDate(newDate);
     };
 
-    const handleAddJob = () => {
-        const new_job = {
+    const handleUpdate = () => {
+        const new_news = {
+            postedDate,
             title,
-            orgName,
-            city,
-            state,
-            details,
-            datePosted,
-            user: {
-                id: user.auth.id,
-                role: user.auth.role
-            }
+            details
         }
 
-        axios.post(`http://localhost:8080/api/v1/jobs`, new_job, config)
+        axios.put(`http://localhost:8080/api/v1/news/${news_id}`, new_news, config)
             .then(res => {
-                navigate('/jobs')
+                navigate('/news')
             })
     }
 
+    async function getNewsById() {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/v1/news/${news_id}`, config);
+            setMynew(res.data)
+            if (res.data) {
+                setPostedDate(res.data.eventDate);
+                setTitle(res.data.title);
+                setDetails(res.data.details);
+            }
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+    useEffect(() => {
+        getNewsById()
+    }, [])
+
     return (
-        <div className="job-create" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h5">
-                Add Job Posting
+                Edit News
             </Typography>
             <Card sx={{ padding: "25px", margin: "auto", width: '80%' }}>
                 <CardContent>
@@ -65,13 +76,14 @@ const JobCreate = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 <Typography variant="subtitle" sx={{ width: '100%' }}>
-                                    Job Title
+                                    News Title
                                 </Typography>
                             </Grid>
                             <Grid item xs={9}>
                                 <TextField
                                     id="outlined-search"
                                     type="search"
+                                    value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     sx={{
                                         "& input": {
@@ -81,16 +93,17 @@ const JobCreate = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            {/* <Grid item xs={3}>
                                 <Typography variant="subtitle" sx={{ width: '100%' }}>
-                                    Company Name
+                                    Event Type
                                 </Typography>
                             </Grid>
                             <Grid item xs={9}>
                                 <TextField
                                     id="outlined-search"
                                     type="search"
-                                    onChange={(e) => setOrgName(e.target.value)}
+                                    value={eventType}
+                                    onChange={(e) => setEventType(e.target.value)}
                                     sx={{
                                         "& input": {
                                             padding: "5px",
@@ -98,35 +111,34 @@ const JobCreate = () => {
                                         },
                                     }}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={3}>
                                 <Typography variant="subtitle" sx={{ width: '100%' }}>
-                                    Date Posted
+                                    News Posted Date
                                 </Typography>
                             </Grid>
                             <Grid item xs={9}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DesktopDatePicker
-                                        label="Pick Job Posting Date"
+                                        label="Date desktop"
                                         inputFormat="MM/DD/YYYY"
-                                        value={datePosted}
+                                        value={dayjs(postedDate)}
                                         onChange={handleChange}
-                                        disabled
                                         renderInput={(params) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>
                             </Grid>
                             <Grid item xs={3}>
                                 <Typography variant="subtitle" sx={{ width: '100%' }}>
-                                    City
+                                    Details
                                 </Typography>
                             </Grid>
                             <Grid item xs={9}>
                                 <TextField
                                     id="outlined-search"
                                     type="search"
-                                    // value={city}
-                                    onChange={(e) => setCity(e.target.value)}
+                                    value={details}
+                                    onChange={(e) => setDetails(e.target.value)}
                                     sx={{
                                         "& input": {
                                             padding: "5px",
@@ -135,7 +147,7 @@ const JobCreate = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            {/* <Grid item xs={3}>
                                 <Typography variant="subtitle" sx={{ width: '100%' }}>
                                     State
                                 </Typography>
@@ -144,7 +156,7 @@ const JobCreate = () => {
                                 <TextField
                                     id="outlined-search"
                                     type="search"
-                                    // value={state}
+                                    value={state}
                                     onChange={(e) => setState(e.target.value)}
                                     sx={{
                                         "& input": {
@@ -163,7 +175,7 @@ const JobCreate = () => {
                                 <TextField
                                     id="outlined-search"
                                     type="search"
-                                    // value={details}
+                                    value={details}
                                     onChange={(e) => setDetails(e.target.value)}
                                     sx={{
                                         "& input": {
@@ -172,9 +184,9 @@ const JobCreate = () => {
                                         },
                                     }}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: "end" }}>
-                                <Button color="secondary" onClick={handleAddJob}>Add Job</Button>
+                                <Button color="secondary" onClick={handleUpdate}>Update</Button>
                             </Grid>
                         </Grid>
                     </Box>
@@ -184,4 +196,4 @@ const JobCreate = () => {
     )
 }
 
-export default JobCreate;
+export default NewsEdit;

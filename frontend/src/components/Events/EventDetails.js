@@ -14,44 +14,39 @@ import CardContent from '@mui/material/CardContent';
 import Popper from '@mui/material/Popper';
 import { AuthContext } from "../../App";
 
-const JobDetails = () => {
+const EventDetails = () => {
     const param = useParams();
-    const job_id = param.id;
+    const event_id = param.id;
     const navigate = useNavigate();
     const user = useContext(AuthContext);
 
-    const [job, setJob] = useState({});
+    const [event, setEvent] = useState({});
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
     const canBeOpen = open && Boolean(anchorEl);
     const id = canBeOpen ? 'spring-popper' : undefined;
 
-    async function getJobById() {
-        const bearer_token = `Bearer ${user.auth.token}`
+    const bearer_token = `Bearer ${user.auth.token}`;
+    const config = {
+        headers: {
+            Authorization: bearer_token
+        }
+    };
+
+    async function getEventById() {
         try {
-            const config = {
-                headers: {
-                    Authorization: bearer_token
-                }
-            };
-            const res = await axios.get(`http://localhost:8080/api/v1/jobs/${job_id}`, config);
-            setJob(res.data)
+            const res = await axios.get(`http://localhost:8080/api/v1/events/${event_id}`, config);
+            setEvent(res.data)
         } catch (err) {
             console.error(err.message);
         }
     }
 
-    async function deleteJobById() {
-        const bearer_token = `Bearer ${user.auth.token}`
+    async function deleteEventById() {
         try {
-            const config = {
-                headers: {
-                    Authorization: bearer_token
-                }
-            };
-            const res = await axios.delete(`http://localhost:8080/api/v1/jobs/${job_id}`, config);
-            navigate('/jobs')
+            const res = await axios.delete(`http://localhost:8080/api/v1/events/${event_id}`, config);
+            navigate('/events')
         } catch (err) {
             console.error(err.message);
         }
@@ -63,7 +58,7 @@ const JobDetails = () => {
     }
 
     const handleDelete = () => {
-        deleteJobById()
+        deleteEventById()
     }
 
     const handleNo = (e) => {
@@ -72,15 +67,13 @@ const JobDetails = () => {
     }
 
     useEffect(() => {
-        getJobById()
+        getEventById()
     }, [])
-
-    console.log(user.auth.id, job.user)
 
     return (
         <div className="details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h5">
-                Job Detail Page
+                Event Detail Page
             </Typography>
             <Card sx={{ padding: "25px", margin: "auto" }}>
                 <CardContent>
@@ -88,15 +81,15 @@ const JobDetails = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Typography variant="h4">
-                                    {job.title}
+                                    {event.name}
                                 </Typography>
                             </Grid>
                             {
-                                (user.auth.id === job.user) &&
+                                (user.auth.id === event.user) &&
                                 <Grid item xs={6} style={{ display: 'flex', justifyContent: 'center' }}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={6}>
-                                            <Button variant="outlined" onClick={() => navigate(`/jobs/edit/${job_id}`)}>Edit</Button>
+                                            <Button variant="outlined" onClick={() => navigate(`/events/edit/${event_id}`)}>Edit</Button>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <Button
@@ -128,34 +121,21 @@ const JobDetails = () => {
                             }
                             <Grid item xs={12}>
                                 <Typography variant="h5">
-                                    Company Name: {job.orgName}
+                                    Company Name: {event.type}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle1">
-                                    Date Posted: {job.datePosted ? format(new Date(job.datePosted), 'yyyy-MM-dd') : 'N/A'}
+                                    Date Posted: {event.eventDate ? format(new Date(event.eventDate), 'yyyy-MM-dd') : 'N/A'}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle1">
-                                    Location: {job.city}, {job.state}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sx={{ display: 'flex' }}>
-                                <Typography variant="subtitle1">
-                                    Status: {job.status ? "open" : "closed"}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                                    Job Description:
-                                </Typography>
-                                <Typography variant="subtitle1" >
-                                    {job.details}
+                                    Location: {event.location}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: "end" }}>
-                                <Button color="secondary">Apply</Button>
+                                <Button color="secondary">Attend</Button>
                             </Grid>
                         </Grid>
                     </Box>
@@ -165,4 +145,4 @@ const JobDetails = () => {
     )
 }
 
-export default JobDetails;
+export default EventDetails;

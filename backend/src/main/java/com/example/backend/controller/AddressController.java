@@ -41,8 +41,8 @@ public class AddressController {
 
 
     //delete User by id
-    @DeleteMapping
-    public ResponseEntity<String> delete(Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
         String response = addressService.delete(id);
         return ResponseEntity.ok().body(response);
     }
