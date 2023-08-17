@@ -41,7 +41,7 @@ export const Profile = () => {
   const [zip, setZip] = useState("");
 
   const handleUpdate = () => {
-    const user = {
+    const edit_user = {
       firstName,
       lastName,
       email,
@@ -49,9 +49,9 @@ export const Profile = () => {
       industry,
     };
     axios
-      .put(`http://localhost:8080/api/v1/users/${userId}`, user, config)
+      .put(`http://localhost:8080/api/v1/users/${userId}`, edit_user, config)
       .then((res) => {
-        alert("User succesfully updated");
+        alert("User Updated");
         navigate("/my-profile");
       })
       .then(() => {
@@ -61,28 +61,44 @@ export const Profile = () => {
           city,
           state,
           zip,
+          user: {
+            id: user.auth.id,
+            role: user.auth.role,
+          },
         };
         try {
-          console.log("Test");
-          axios
-            .put(
-              `http://localhost:8080/api/v1/addresses/${address.id}`,
-              addr,
-              config
-            )
-            .then((res) => {
-              alert("Address Updated");
-              navigate("/my-profile");
-            })
-            .catch((err) => {
-              console.log(err);
-              navigate("/my-profile");
-            });
+          console.log(address);
+          if (address.id != null) {
+            axios
+              .put(
+                `http://localhost:8080/api/v1/addresses/${address.id}`,
+                addr,
+                config
+              )
+              .then((res) => {
+                alert("Address Updated");
+                navigate("/my-profile");
+              })
+              .catch((err) => {
+                console.log(err);
+                navigate("/my-profile");
+              });
+          } else {
+            axios
+              .post(`http://localhost:8080/api/v1/addresses`, addr, config)
+              .then((res) => {
+                alert("Address Created");
+                navigate("/my-profile");
+              })
+              .catch((err) => {
+                console.log(err);
+                navigate("/my-profile");
+              });
+          }
         } catch (err) {
           console.log(err);
         }
       });
-    getUserById();
     navigate("/my-profile");
   };
 
@@ -148,8 +164,8 @@ export const Profile = () => {
   }
 
   useEffect(() => {
-    getUserById();
     getAddressByUserId();
+    getUserById();
   }, []);
 
   return (

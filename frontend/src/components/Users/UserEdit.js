@@ -68,21 +68,38 @@ const UserEdit = () => {
       zip,
       user: {
         id: user.auth.id,
-        role: "User",
+        role: user.auth.role,
       },
     };
     try {
-      console.log("Test");
-      axios
-        .put(
-          `http://localhost:8080/api/v1/addresses/${address.id}`,
-          addr,
-          config
-        )
-        .then((res) => {
-          alert("Address Updated");
-          navigate("/users");
-        });
+      console.log(address);
+      if (address.id != null) {
+        axios
+          .put(
+            `http://localhost:8080/api/v1/addresses/${address.id}`,
+            addr,
+            config
+          )
+          .then((res) => {
+            alert("Address Updated");
+            navigate("/my-profile");
+          })
+          .catch((err) => {
+            console.log(err);
+            navigate("/my-profile");
+          });
+      } else {
+        axios
+          .post(`http://localhost:8080/api/v1/addresses`, addr, config)
+          .then((res) => {
+            alert("Address Created");
+            navigate("/my-profile");
+          })
+          .catch((err) => {
+            console.log(err);
+            navigate("/my-profile");
+          });
+      }
     } catch (err) {
       console.log(err);
     }
