@@ -48,7 +48,7 @@ function App() {
                     <Routes>
                       <Route path="/my-profile" element={<Profile />} />
                       <Route path="/users" element={<UserList />} />
-                      <Route path="/userDetails" element={<UserDetails />} />
+                      <Route path="/users/:id" element={<UserDetails />} />
                       <Route path='/jobs' element={<Jobs />} />
                       <Route path='/jobs/:id' element={<JobDetails />} />
                       <Route path='/jobs/create' element={<JobCreate />} />
