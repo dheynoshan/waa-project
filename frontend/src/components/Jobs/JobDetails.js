@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import axios from "axios";
 import { format } from 'date-fns';
@@ -12,11 +12,13 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Popper from '@mui/material/Popper';
+import { AuthContext } from "../../App";
 
 const JobDetails = () => {
     const param = useParams();
     const job_id = param.id;
     const navigate = useNavigate();
+    const user = useContext(AuthContext);
 
     const [job, setJob] = useState({});
     const [open, setOpen] = useState(false);
@@ -26,7 +28,7 @@ const JobDetails = () => {
     const id = canBeOpen ? 'spring-popper' : undefined;
 
     async function getJobById() {
-        const bearer_token = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLm1pa2VAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTIyMDQwNTgsImV4cCI6MTY5MjIwNzY1OH0.9Aw6zjLFvbVnPsLbOHzDHqgmEqUlxRehRHnHmHwB2ys`
+        const bearer_token = `Bearer ${user.auth.token}`
         try {
             const config = {
                 headers: {
@@ -41,7 +43,7 @@ const JobDetails = () => {
     }
 
     async function deleteJobById() {
-        const bearer_token = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLm1pa2VAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTIyMDQwNTgsImV4cCI6MTY5MjIwNzY1OH0.9Aw6zjLFvbVnPsLbOHzDHqgmEqUlxRehRHnHmHwB2ys`
+        const bearer_token = `Bearer ${user.auth.token}`
         try {
             const config = {
                 headers: {
@@ -73,6 +75,8 @@ const JobDetails = () => {
         getJobById()
     }, [])
 
+    console.log(user.auth.id, job.user)
+
     return (
         <div className="details" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h5">
@@ -87,38 +91,41 @@ const JobDetails = () => {
                                     {job.title}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={6}>
-                                        <Button variant="outlined" onClick={()=> navigate(`/jobs/edit/${job_id}`)}>Edit</Button>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            aria-describedby={id}
-                                            onClick={handleDeleteClick}
-                                        >
-                                            Delete
-                                        </Button>
-                                        <Popper id={id} open={open} anchorEl={anchorEl} >
-                                            {/* <Box sx={{ padding: "1px"}}> */}
-                                            <Card sx={{ padding: "1px" }}>
-                                                <CardContent>
-                                                    <Typography variant="subtitle2">
-                                                        Are you sure you want to delete?
-                                                    </Typography>
-                                                    <div style={{display: "flex", justifyContent: 'end'}}>
-                                                        <Button color="error" sx={{ paddingBottom: "0" }} onClick={handleDelete}>Yes</Button>
-                                                        <Button color="primary" sx={{ paddingBottom: "0" }} onClick={handleNo}>No</Button>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                            {/* </Box> */}
-                                        </Popper>
+                            {
+                                (user.auth.id === job.user) &&
+                                <Grid item xs={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            <Button variant="outlined" onClick={() => navigate(`/jobs/edit/${job_id}`)}>Edit</Button>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Button
+                                                variant="outlined"
+                                                color="error"
+                                                aria-describedby={id}
+                                                onClick={handleDeleteClick}
+                                            >
+                                                Delete
+                                            </Button>
+                                            <Popper id={id} open={open} anchorEl={anchorEl} >
+                                                {/* <Box sx={{ padding: "1px"}}> */}
+                                                <Card sx={{ padding: "1px" }}>
+                                                    <CardContent>
+                                                        <Typography variant="subtitle2">
+                                                            Are you sure you want to delete?
+                                                        </Typography>
+                                                        <div style={{ display: "flex", justifyContent: 'end' }}>
+                                                            <Button color="error" sx={{ paddingBottom: "0" }} onClick={handleDelete}>Yes</Button>
+                                                            <Button color="primary" sx={{ paddingBottom: "0" }} onClick={handleNo}>No</Button>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                                {/* </Box> */}
+                                            </Popper>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+                            }
                             <Grid item xs={12}>
                                 <Typography variant="h5">
                                     Company Name: {job.orgName}
@@ -135,9 +142,6 @@ const JobDetails = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sx={{ display: 'flex' }}>
-                                <Typography variant="subtitle1">
-                                    Status: {job.status ? "open" : "closed"}
-                                </Typography>
                                 <Typography variant="subtitle1">
                                     Status: {job.status ? "open" : "closed"}
                                 </Typography>

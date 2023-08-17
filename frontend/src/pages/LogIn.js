@@ -40,6 +40,7 @@ export default function LogIn() {
         user.setAuth({
           id: res.data.userId,
           token: res.data.token,
+          role: res.data.role
         });
         navigate("/my-profile");
       })

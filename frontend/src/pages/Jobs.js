@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -8,12 +8,16 @@ import MenuItem from '@mui/material/MenuItem';
 import JobsComponent from '../components/Jobs/JobsComponent';
 import CustomPagination from '../components/Jobs/CustomPagination';
 import axios from 'axios';
+import { AuthContext } from '../App';
+import { useNavigate } from 'react-router';
 
 const Jobs = () => {
     const [jobs, setJobs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('');
     const [searchKeyword, setSearchKeyword] = useState('');
+    const user = useContext(AuthContext)
+    const navigate = useNavigate();
     const itemsPerPage = 6;
 
     const indexOfLastJob = currentPage * itemsPerPage;
@@ -41,7 +45,7 @@ const Jobs = () => {
 
 
     async function getJob() {
-        const bearer_token = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLm1pa2VAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTIyMDQwNTgsImV4cCI6MTY5MjIwNzY1OH0.9Aw6zjLFvbVnPsLbOHzDHqgmEqUlxRehRHnHmHwB2ys`
+        const bearer_token = `Bearer ${user.auth.token}`
         try {
             const config = {
                 headers: {
@@ -56,7 +60,7 @@ const Jobs = () => {
     }
 
     async function getJobByFilter() {
-        const bearer_token = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLm1pa2VAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTIyMDQwNTgsImV4cCI6MTY5MjIwNzY1OH0.9Aw6zjLFvbVnPsLbOHzDHqgmEqUlxRehRHnHmHwB2ys`
+        const bearer_token = `Bearer ${user.auth.token}`
         try {
             const config = {
                 headers: {
@@ -140,7 +144,7 @@ const Jobs = () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={2} >
-                        <Button variant="outlined">Create +</Button>
+                        <Button variant="outlined" onClick={()=> navigate('/jobs/create')}>Create +</Button>
                     </Grid>
 
                 </Grid>
