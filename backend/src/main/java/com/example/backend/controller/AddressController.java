@@ -52,5 +52,11 @@ public class AddressController {
     public AddressDto getByUserId(@RequestParam Integer userId) {
         return addressService.getByUserId(userId);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AddressDto> update(@PathVariable Integer id, @RequestBody AddressDto addressDto){
+        var dto = addressService.update(id, addressDto);
+        return ResponseEntity.ok().body(dto);
+    }
 }
 
