@@ -109,6 +109,9 @@ export const Profile = () => {
         setLastName(res.data.lastName);
         setEmail(res.data.email);
         setPassword(res.data.password);
+        setIndustry(res.data.industry);
+        setPhoneNumber(res.data.phoneNumber);
+        setCourse(res.data.course);
       }
     } catch (err) {
       console.error(err.message);

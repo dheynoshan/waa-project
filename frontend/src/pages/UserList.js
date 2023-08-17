@@ -41,7 +41,7 @@ export default function UserList() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <Typography variant="h4">Job Portal</Typography>
+            <Typography variant="h4">User List</Typography>
           </Grid>
           <Grid container spacing={2}>
             {users.map((user) => (

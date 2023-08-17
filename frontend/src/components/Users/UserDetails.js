@@ -117,6 +117,8 @@ export default function UserDetails() {
     setOpen((previousOpen) => !previousOpen);
   };
 
+  console.log(user.auth.id === userId, user.auth.id, userId);
+
   return (
     <div
       className="details"
@@ -135,55 +137,57 @@ export default function UserDetails() {
                 xs={6}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => navigate(`/jobs/users/edit/${userId}`)}
-                    >
-                      Edit
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      aria-describedby={id}
-                      onClick={handleDeleteClick}
-                    >
-                      Delete
-                    </Button>
-                    <Popper id={id} open={open} anchorEl={anchorEl}>
-                      {/* <Box sx={{ padding: "1px"}}> */}
-                      <Card sx={{ padding: "1px" }}>
-                        <CardContent>
-                          <Typography variant="subtitle2">
-                            Are you sure you want to delete?
-                          </Typography>
-                          <div
-                            style={{ display: "flex", justifyContent: "end" }}
-                          >
-                            <Button
-                              color="error"
-                              sx={{ paddingBottom: "0" }}
-                              onClick={handleDelete}
+                {(user.auth.role === "ADMIN" || user.auth.id == userId) && (
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => navigate(`/jobs/users/edit/${userId}`)}
+                      >
+                        Edit
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        aria-describedby={id}
+                        onClick={handleDeleteClick}
+                      >
+                        Delete
+                      </Button>
+                      <Popper id={id} open={open} anchorEl={anchorEl}>
+                        {/* <Box sx={{ padding: "1px"}}> */}
+                        <Card sx={{ padding: "1px" }}>
+                          <CardContent>
+                            <Typography variant="subtitle2">
+                              Are you sure you want to delete?
+                            </Typography>
+                            <div
+                              style={{ display: "flex", justifyContent: "end" }}
                             >
-                              Yes
-                            </Button>
-                            <Button
-                              color="primary"
-                              sx={{ paddingBottom: "0" }}
-                              onClick={handleNo}
-                            >
-                              No
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      {/* </Box> */}
-                    </Popper>
+                              <Button
+                                color="error"
+                                sx={{ paddingBottom: "0" }}
+                                onClick={handleDelete}
+                              >
+                                Yes
+                              </Button>
+                              <Button
+                                color="primary"
+                                sx={{ paddingBottom: "0" }}
+                                onClick={handleNo}
+                              >
+                                No
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                        {/* </Box> */}
+                      </Popper>
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h5">
