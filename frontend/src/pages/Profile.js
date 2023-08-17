@@ -8,6 +8,10 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../App";
 
+import AchievementList from '../components/Achievement/achievement-list'
+import EducationList from '../components/Education/education-list'
+import JobExpList from '../components/JobExp/jobexp-list'
+
 export const Profile = () => {
   const user = useContext(AuthContext);
 
@@ -173,11 +177,20 @@ export const Profile = () => {
       className="details"
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <Typography variant="h5">User Details</Typography>
-
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Typography variant="h4">
+            User Details
+          </Typography>
+        </Grid>
+        <Grid item xs={4} >
+          <Button variant="outlined" onClick={() => user.setAuth({})}>Logout</Button>
+        </Grid>
+      </Grid>
       <Card sx={{ padding: "25px", margin: "auto", width: "80%" }}>
         <CardContent>
           <Box sx={{ flexGrow: 1 }}>
+
             <Grid container spacing={2}>
               <Grid item xs={3}>
                 <Typography variant="subtitle" sx={{ width: "100%" }}>
@@ -245,7 +258,7 @@ export const Profile = () => {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              {/* <Grid item xs={3}>
                 <Typography variant="subtitle" sx={{ width: "100%" }}>
                   Password
                 </Typography>
@@ -265,7 +278,7 @@ export const Profile = () => {
                     },
                   }}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={3}>
                 <Typography variant="subtitle" sx={{ width: "100%" }}>
@@ -453,6 +466,15 @@ export const Profile = () => {
                 </Button>
               </Grid>
             </Grid>
+          </Box>
+        </CardContent>
+      </Card>
+      <Card sx={{ padding: "25px", margin: "auto", width: "80%" }}>
+        <CardContent>
+          <Box sx={{ flexGrow: 1 }}>
+            <AchievementList userID={userId} />
+            <EducationList userID={userId} />
+            <JobExpList userID={userId} />
           </Box>
         </CardContent>
       </Card>

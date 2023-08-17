@@ -20,6 +20,7 @@ const EventDetails = () => {
     const navigate = useNavigate();
     const user = useContext(AuthContext);
 
+    const [attend, setAttend] = useState('Attend')
     const [event, setEvent] = useState({});
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -50,6 +51,10 @@ const EventDetails = () => {
         } catch (err) {
             console.error(err.message);
         }
+    }
+
+    const handleAttend = () => {
+        setAttend('Enrolled')
     }
 
     const handleDeleteClick = (e) => {
@@ -135,7 +140,7 @@ const EventDetails = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: "end" }}>
-                                <Button color="secondary">Attend</Button>
+                                <Button color="secondary" onClick={handleAttend} disabled={attend == 'Enrolled' ? true : false}>{attend}</Button>
                             </Grid>
                         </Grid>
                     </Box>

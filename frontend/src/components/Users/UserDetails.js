@@ -137,7 +137,7 @@ export default function UserDetails() {
                 xs={6}
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                {(user.auth.role === "ADMIN" || user.auth.id == userId) && (
+                {(user.auth.role == "ADMIN" || user.auth.id == userId) && (
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Button

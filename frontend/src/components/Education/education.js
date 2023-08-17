@@ -12,8 +12,8 @@ export default function Education(props) {
         },
     };
     const [formData, setFormData] = useState({
-        startDate: new Date(props.startDate).toISOString().split('T')[0],
-        endDate: new Date(props.endDate).toISOString().split('T')[0],
+        startDate: props.startDate ? new Date(props.startDate).toISOString().split('T')[0] : '',
+        endDate: props.endDate ? new Date(props.endDate).toISOString().split('T')[0] : '',
         schoolName: props.schoolName,
         degree: props.degree,
         user: {
@@ -45,8 +45,12 @@ export default function Education(props) {
 
     const deleteItem = async (e) => {
         e.preventDefault()
-        await axios.delete(url + '/' + props.id, config)
-        props.getData()
+        try {
+            await axios.delete(url + '/' + props.id, config)
+            props.getData();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
     }
 
 
@@ -70,13 +74,7 @@ export default function Education(props) {
                 <button onClick={handleSubmit}>Create</button>
             )}
 
-            <button onClick={async () => {
-                if (props.id) {
-                    await deleteItem(props.id)
-                } else {
-                    props.deleteForm()
-                }
-            }}>Delete</button>
+            <button onClick={deleteItem}>Delete</button>
         </form>
 
     )

@@ -23,6 +23,7 @@ const JobDetails = () => {
     const [job, setJob] = useState({});
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [apply, setApply] = useState('Apply');
 
     const canBeOpen = open && Boolean(anchorEl);
     const id = canBeOpen ? 'spring-popper' : undefined;
@@ -55,6 +56,11 @@ const JobDetails = () => {
         } catch (err) {
             console.error(err.message);
         }
+    }
+
+    const handleApply = () => {
+        console.log("I was clicked")
+        setApply('Applied')
     }
 
     const handleDeleteClick = (e) => {
@@ -155,7 +161,7 @@ const JobDetails = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: "end" }}>
-                                <Button color="secondary">Apply</Button>
+                                <Button color="secondary" onClick={handleApply} disabled={apply == 'Applied' ? true : false}>{apply}</Button>
                             </Grid>
                         </Grid>
                     </Box>

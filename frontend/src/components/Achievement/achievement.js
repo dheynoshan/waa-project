@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../App";
+import { useNavigate } from "react-router";
+import { async } from "q";
 
 export default function Achievement(props) {
     const user = useContext(AuthContext)
     const bearer_token = `Bearer ${user.auth.token}`;
+    const navigate = useNavigate();
     const config = {
         headers: {
             Authorization: bearer_token,
@@ -45,8 +48,12 @@ export default function Achievement(props) {
 
     const deleteItem = async (e) => {
         e.preventDefault();
-        axios.delete(url + '/' + props.id, config)
-        props.getData()
+        try {
+            await axios.delete(url + '/' + props.id, config);
+            props.getData();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
     }
 
 
@@ -64,13 +71,7 @@ export default function Achievement(props) {
                 <button onClick={handleSubmit}>Create</button>
             )}
 
-            <button onClick={async () => {
-                if (props.id) {
-                    deleteItem(props.id)
-                } else {
-                    props.deleteForm()
-                }
-            }}>Delete</button>
+            <button onClick={deleteItem}>Delete</button>
         </form>
 
     )

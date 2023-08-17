@@ -13,8 +13,8 @@ export default function JobExp(props) {
     };
 
     const [formData, setFormData] = useState({
-        startDate: new Date(props.startDate).toISOString().split('T')[0],
-        endDate: new Date(props.endDate).toISOString().split('T')[0],
+        startDate: props.startDate ? new Date(props.startDate).toISOString().split('T')[0] : '',
+        endDate: props.endDate ? new Date(props.endDate).toISOString().split('T')[0] : '',
         companyName: props.companyName,
         jobTitle: props.jobTitle,
         user: {
@@ -46,8 +46,12 @@ export default function JobExp(props) {
 
     const deleteItem = async (e) => {
         e.preventDefault();
-        axios.delete(url + '/' + props.id, config)
-        props.getData()
+        try {
+            await axios.delete(url + '/' + props.id, config)
+            props.getData();
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
     }
 
 
@@ -71,13 +75,7 @@ export default function JobExp(props) {
                 <button onClick={handleSubmit}>Create</button>
             )}
 
-            <button onClick={async () => {
-                if (props.id) {
-                    deleteItem(props.id)
-                } else {
-                    props.deleteForm()
-                }
-            }}>Delete</button>
+            <button onClick={deleteItem}>Delete</button>
         </form>
 
     )
