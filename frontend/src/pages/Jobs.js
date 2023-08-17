@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import JobsComponent from '../components/Jobs/JobsComponent';
-import CustomPagination from '../components/Jobs/CustomPagination';
+import CustomPagination from '../components/CustomPagination';
 import axios from 'axios';
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router';
@@ -18,11 +18,18 @@ const Jobs = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const user = useContext(AuthContext)
     const navigate = useNavigate();
-    const itemsPerPage = 6;
 
+    const itemsPerPage = 6;
     const indexOfLastJob = currentPage * itemsPerPage;
     const indexOfFirstJob = indexOfLastJob - itemsPerPage;
     const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
+
+    const bearer_token = `Bearer ${user.auth.token}`;
+    const config = {
+        headers: {
+            Authorization: bearer_token
+        }
+    };
 
     const filters = [
         {
@@ -45,13 +52,7 @@ const Jobs = () => {
 
 
     async function getJob() {
-        const bearer_token = `Bearer ${user.auth.token}`
         try {
-            const config = {
-                headers: {
-                    Authorization: bearer_token
-                }
-            };
             const res = await axios.get('http://localhost:8080/api/v1/jobs', config);
             setJobs(res.data)
         } catch (err) {
@@ -60,14 +61,7 @@ const Jobs = () => {
     }
 
     async function getJobByFilter() {
-        const bearer_token = `Bearer ${user.auth.token}`
         try {
-            const config = {
-                headers: {
-                    Authorization: bearer_token
-                }
-            };
-
             const res = await axios.get(`http://localhost:8080/api/v1/jobs/filters?${filter}=${searchKeyword}`, config);
             setJobs(res.data)
             setFilter('')
@@ -144,7 +138,7 @@ const Jobs = () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={2} >
-                        <Button variant="outlined" onClick={()=> navigate('/jobs/create')}>Create +</Button>
+                        <Button variant="outlined" onClick={() => navigate('/jobs/create')}>Create +</Button>
                     </Grid>
 
                 </Grid>

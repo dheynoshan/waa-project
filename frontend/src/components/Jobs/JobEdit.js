@@ -56,13 +56,7 @@ const JobEdit = () => {
     console.log(title)
 
     async function getJobById() {
-        const bearer_token = `Bearer ${user.auth.token}`
         try {
-            const config = {
-                headers: {
-                    Authorization: bearer_token
-                }
-            };
             const res = await axios.get(`http://localhost:8080/api/v1/jobs/${job_id}`, config);
             setJob(res.data)
             if (res.data) {
